@@ -3,27 +3,46 @@
 const semaforo = document.getElementById("semaforo")
 let idInterval
 
-const ligarVermelho = () => semaforo.src = "img/vermelho.png"
+const ligarVermelho = () => semaforo.src.includes ("vermelho")
 
-const ligarAmarelo = () => semaforo.src = "img/amarelo.png"
+const ligarAmarelo = () => semaforo.src.includes ("amarelo")
 
-const ligarVerde = () => semaforo.src = "img/verde.png"
+const ligarVerde = () => semaforo.src.includes ("verde")
 
-function desligarSemaforo() {
-    if(!ligarAutomatico()) {
-        semaforo.src = "img/desligado.png"
+const semaforoDesligado = () => semaforo.src.includes ("desligado")
+
+
+
+const pararAutomatico = () => clearInterval(intervalo)
+
+const vermelho = (evento) => {
+    if (evento){
+        pararAutomatico()
     }
+    semaforo.src = "img/vermelho.png"
 }
 
-const semaforoDesligado = () => semaforo.src = "img/desligado.png"
+const amarelo = (evento) => {
+    if (evento){
+        pararAutomatico()
+    }
+    semaforo.src = "img/amarelo.png"
+}
 
-const semaforoAutomatico = () => semaforo.src.indexOf("automatico") !== -1
+const verde = (evento) => {
+    if (evento){
+        pararAutomatico()
+    }
+    semaforo.src = "img/verde.png"
+}
 
 function automaticoLigado() {
-    if (ligarAutomatico) {
-        ligarVermelho()
+    if (ligarVermelho() || semaforoDesligado()) {
+        vermelho()
+    } else if (ligarAmarelo) {
+        amarelo()
     } else {
-        semaforoDesligado()
+        verde()
     }
 }
 
